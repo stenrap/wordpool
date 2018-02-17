@@ -1,0 +1,835 @@
+
+================
+    WordPool
+      v1.0
+================
+
+
+=======================================================
+    Shortcomings of Words with Friends and Scrabble
+=======================================================
+
+    1. You only have 7 letters on your rack; however, the English language has more 8-, 9-, and 10-letter words than 7-letter words.
+    
+    2. Sometimes you end up with only vowels or consonants on your rack.
+    
+    3. The board often ends up becoming cramped.
+    
+    4. There is only one J, Q, X, and Z.
+
+
+================
+    Gameplay
+================
+
+    1. Round 1 begins as three cards are dealt to each player and three random words appear in the word pool.
+    
+    2. Player 1 forms a word on the board using any letters from the word pool.
+    
+        - Player 1 may use a card before submitting his word.
+    
+        - When forming the first word of the game, player 1 must place one letter on the "home" square in the center of the board.
+        
+        - Words formed on the board may only share sequences of three or fewer letters with any word in the word pool.
+    
+    3. Player 2 forms a word on the board using the remaining letters in the word pool.
+    
+        - Player 2 may use a card before submitting his word.
+    
+    4. Round 2 begins as one card is dealt to each player and three new words appear in the word pool.
+    
+    5. Player 2 forms a word on the board using any letters from the words in the word pool.
+    
+    6. Player 1 forms a word on the board using the remaining letters in the word pool.
+    
+    7. Gameplay continues as the players alternate who forms a word first in each round.
+    
+    8. The first player to reach 500 points after an even number of rounds wins the game.
+    
+
+
+=============
+    Board
+=============
+
+    This is the board layout (a 25 x 25 grid):
+    
+        3L -- -- -- -- 4W -- -- -- -- -- 2L -- 2L -- -- -- -- -- 4W -- -- -- -- 3L
+        -- -- -- -- 2L -- -- -- -- -- 3L -- -- -- 3L -- -- -- -- -- 2L -- -- -- --
+        -- -- -- 3W -- -- -- -- -- 4L -- -- -- -- -- 4L -- -- -- -- -- 3W -- -- --
+        -- -- 4L -- -- -- -- -- 2L -- -- -- -- -- -- -- 2L -- -- -- -- -- 4L -- --
+        -- 2L -- -- -- -- -- 2W -- -- -- -- -- -- -- -- -- 2W -- -- -- -- -- 2L --
+        4W -- -- -- -- -- 4L -- -- -- -- -- -- -- -- -- -- -- 4L -- -- -- -- -- 4W
+        -- -- -- -- -- 3L -- -- -- -- -- -- 3W -- -- -- -- -- -- 3L -- -- -- -- --
+        -- -- -- -- 2W -- -- -- -- -- -- 2L -- 2L -- -- -- -- -- -- 2W -- -- -- --
+        -- -- -- 2L -- -- -- -- -- -- 3L -- -- -- 3L -- -- -- -- -- -- 2L -- -- --
+        -- -- 4L -- -- -- -- -- -- 4L -- -- -- -- -- 4L -- -- -- -- -- -- 4L -- --
+        -- 3L -- -- -- -- -- -- 3L -- -- -- -- -- -- -- 3L -- -- -- -- -- -- 3L --
+        2L -- -- -- -- -- -- 2L -- -- -- -- -- -- -- -- -- 2L -- -- -- -- -- -- 2L
+        -- -- -- -- -- -- 3W -- -- -- -- -- HM -- -- -- -- -- 3W -- -- -- -- -- --
+        2L -- -- -- -- -- -- 2L -- -- -- -- -- -- -- -- -- 2L -- -- -- -- -- -- 2L
+        -- 3L -- -- -- -- -- -- 3L -- -- -- -- -- -- -- 3L -- -- -- -- -- -- 3L --
+        -- -- 4L -- -- -- -- -- -- 4L -- -- -- -- -- 4L -- -- -- -- -- -- 4L -- --
+        -- -- -- 2L -- -- -- -- -- -- 3L -- -- -- 3L -- -- -- -- -- -- 2L -- -- --
+        -- -- -- -- 2W -- -- -- -- -- -- 2L -- 2L -- -- -- -- -- -- 2W -- -- -- --
+        -- -- -- -- -- 3L -- -- -- -- -- -- 3W -- -- -- -- -- -- 3L -- -- -- -- --
+        4W -- -- -- -- -- 4L -- -- -- -- -- -- -- -- -- -- -- 4L -- -- -- -- -- 4W
+        -- 2L -- -- -- -- -- 2W -- -- -- -- -- -- -- -- -- 2W -- -- -- -- -- 2L --
+        -- -- 4L -- -- -- -- -- 2L -- -- -- -- -- -- -- 2L -- -- -- -- -- 4L -- --
+        -- -- -- 3W -- -- -- -- -- 4L -- -- -- -- -- 4L -- -- -- -- -- 3W -- -- --
+        -- -- -- -- 2L -- -- -- -- -- 3L -- -- -- 3L -- -- -- -- -- 2L -- -- -- --
+        3L -- -- -- -- 4W -- -- -- -- -- 2L -- 2L -- -- -- -- -- 4W -- -- -- -- 3L
+    
+        Key:
+        
+            HM = Home                   => 
+            4W = Quadruple word score   => #ff5722
+            3W = Triple word score      => #2196f3
+            2W = Double word score      => #607d8b
+            4L = Quadruple letter score => #ff9800
+            3L = Triple letter score    => #9c27b0
+            2L = Double letter score    => #009688
+
+
+=============
+    Cards
+=============
+
+    2x => Freestanding Word
+    
+          Form a word in a completely empty spot on the board.
+    
+    
+    2x => Sequence of Four
+    
+          Form a word that shares a sequence of up to 4 letters
+          with any word in the word pool. Draw another card.
+    
+    
+    2x => Exchange Letter
+    
+          Exchange a letter in the word pool with a random
+          letter. You may play another card during this turn.
+    
+    
+    2x => Refresh
+    
+          Empty the word pool and fill it with three new words.
+          Draw another card.
+    
+    
+    2x => Add Letter
+    
+          Add a random letter to the word pool. Draw another
+          card.
+    
+    
+    2x => Remove Letter
+    
+          Remove any letter from the word pool. You may play
+          another card during this turn.
+    
+    
+    1x => Force Discard
+    
+          Force your opponent to discard a random card. You
+          may play another card during this turn.
+    
+    
+    1x => Double Play
+    
+          Form two words during this turn.
+    
+    
+    1x => Double Letter
+    
+          Pick a letter in the word pool and its point value
+          will be doubled.
+    
+    
+    1x => Mirror Image
+    
+          Form a palindrome and earn 3 bonus points for each
+          of its letters. Draw another card.
+    
+    
+    1x => Draw Two
+    
+          Draw two more cards from the deck. You may play
+          another card during this turn.
+    
+    
+    1x => Card Theft
+    
+          Steal one of your opponent's cards. You may play
+          another card during this turn.
+    
+    
+    1x => Card Swap
+    
+          Pick one of your opponent's cards and trade it for
+          one of your cards. You may play another card during
+          this turn.
+    
+    
+    1x => Upgrade
+    
+          Pick a double word score and it will be upgraded
+          to a triple word score.
+    
+    
+    1x => Lucky 13
+    
+          Form a word of 13 or more letters and earn 3 bonus
+          points for each letter in the word.
+    
+    
+    1x => Clean House
+    
+          Form a word using all letters in the word pool and
+          earn 2 bonus points for each letter in your word.
+    
+    
+    1x => Repeat
+    
+          Form a word of 9 or more letters that begins and
+          ends with same letter and earn 15 bonus points.
+    
+    
+    1x => Anything Goes
+    
+          Form a word anywhere on the board. Adjoining
+          words are ignored during this turn.
+
+
+=====================
+    Letter Values
+=====================
+
+    A => 1    B => 4    C => 4    D => 2    E => 1
+    
+    F => 4    G => 3    H => 4    I => 1    J => 10
+    
+    K => 5    L => 1    M => 4    N => 1    O => 1
+    
+    P => 4    Q => 10   R => 1    S => 1    T => 1
+    
+    U => 2    V => 5    W => 4    X => 10   Y => 4
+    
+    Z => 10
+
+
+=================
+    Prototype
+=================
+
+    - The word pool is too daunting sometimes.
+    
+        + Develop an algorithm that balances the word pool:
+        
+            Choose any word for word 1
+            
+            if (word 1 is <= 5 letters) {
+                word 2 will be 6 or more letters
+            } else if (word 1 is >= 11 letters) {
+                word 2 will be 10 or fewer letters
+            } else {
+                choose any word for word 2
+            }
+            
+            Repeat the algorithm for word 3 based on the length of word 2
+    
+    - The cardboard board:
+    
+        + Each square is 6/8ths of an inch wide by 6.5/8ths of an inch tall
+        
+        + The separation between squares is 2/8ths of an inch
+        
+        + The perimeter around the board will be 1 inch.
+        
+        + The board will be divided into nine sections so it will be foldable:
+        
+            TL/BL/TR/BR height = 1 + ((6.5/8 + 2/8) * 8) = 9.5"
+            
+            TL/BL/TR/BR width =  1 + ((  6/8 + 2/8) * 8) = 9"
+            
+            
+            LM/RM height = 2/8 + (6.5/8 + 2/8) * 9) = 9 and 6.5/8"
+            
+            LM/RM width =  1 + ((  6/8 + 2/8) * 8) = 9"
+    
+    
+    - The absolute minimum size for the magnet board is 24" x 24":
+    
+        + width  = 1/8" * 26 (for the grid tape lines) + 3/4" * 25 (for the squares) + 2" (for 1" left border and 1" right boder) = 24"
+        
+        + height = 1/8" * 26 (for the grid tape lines) + 3/4" * 25 (for the squares) + 2" (for 1" top border and 1" bottom boder) = 24"
+
+
+=====================
+    Test Accounts
+=====================
+
+    Facebook:
+    
+        username: wfwtester@gmail.com
+        password: you know what it is
+    
+    Google:
+    
+        username: wfwtester@gmail.com
+        password: you know what it is
+    
+    Twitter:
+    
+        username: wfwtester@gmail.com
+        password: you know what it is
+
+
+===============================
+    Facebook Authentication
+===============================
+
+Since this will require testing on actual devices that have the Facebook app installed, build it later.
+
+    1. The user launches the WfW app and the launch screen is displayed.
+    
+        - If the user has a login token stored locally and it's not expired, skip to step 5. Otherwise, go to the next step.
+    
+    2. The WfW app routes to LoginChoiceView and the user taps "Sign in with Facebook".
+    
+        - This could be the user's first time ever (the user is brand new), or the user's first time on a new device (the user already has an account).
+    
+    3. The user is switched to the Facebook app and grants permissions.
+    
+    4. The user is switched back to the WfW app, which receives the user's metadata from Facebook (email, name, login token, login expiration).
+    
+    5. The WfW app sends whatever metadata it has to the appropriate WfW server API.
+    
+        - For a new user or an existing user on a new device, the metadata is: email, name, login token, user type
+        
+        - For a returning user who has a login token that is not expired, the metadata is: email, login token
+    
+    6. The WfW server looks up the user's login token and expiration:
+    
+            SELECT login_token, login_exp FROM players WHERE email = ?;
+        
+        There are four possible outcomes:
+        
+            a) There is no result, meaning the user is brand new.
+            
+                - Go to step 7.
+            
+            b) There is a result, the login token in the DB matches the supplied login token, but the login token is expired.
+            
+                - The WfW server returns a 400 and the WfW app routes to LoginChoiceView.
+            
+            c) There is a result, the login token in the DB matches the supplied login token, and the login token is not expired yet.
+            
+                - The WfW server returns a 200 and the WfW app routes to the game list view.
+            
+            d) There is a result, but the login token in the DB doesn't match the supplied login token.
+            
+                - The WfW server returns a 400 and the WfW app routes to LoginChoiceView.
+    
+    7. The WfW server sends the login token to Facebook's servers and gets one of two responses:
+    
+        a) success, along with the expiration date of the login token
+        
+            i) The WfW server inserts the new user (email, name, login token, login expiration, user type) in the redis cache and database
+            
+                > If the insert fails (because the email is not unique), the WfW server returns a 400 and the WfW app does nothing.
+                
+                    ! Isn't the above behavior a bug? How will someone sign in with Facebook on two devices?
+            
+            ii) The WfW server returns a 200.
+            
+            iii) The WfW app stores the login token and login expiration locally and routes to the game list view.
+        
+        b) failure
+        
+            + The WfW server responds with an HTTP status code of 400 and the WfW app does nothing.
+
+
+============================
+    Email Authentication
+============================
+
+    1. The player launches the WfW app and the launch screen is displayed.
+    
+        - If the player has an ID and a non-expired login token stored locally:
+        
+            a) The WfW app sends them to the WfW server.
+            
+            b) The WfW server looks up the user's login token and expiration:
+            
+                SELECT login_token, login_exp FROM players WHERE id = ?;
+                
+            There are three possible outcomes:
+            
+                a) There is no result, or the login token in the DB doesn't match the supplied login token.
+                
+                    - The WfW server returns a 400 and the WfW app routes to LoginChoiceView.
+                
+                b) There is a result, the login token in the DB matches the supplied login token, but the login token is expired.
+                
+                    - The WfW server returns a 400 and the WfW app routes to LoginChoiceView.
+                    
+                c) There is a result, the login token in the DB matches the supplied login token, and the login token is not expired yet.
+                
+                    - The WfW server returns a 200 and the WfW app routes to GameListView.
+                
+    2. The user taps "Sign in with Email".
+    
+    3. The WfW app routes to EmailLoginView.
+    
+    4. The user types his email and taps "Submit".
+    
+    5. The WfW app sends the email to the WfW server, which responds with one of the following:
+    
+        a) 200 => an account with that email exists, and its type is 2 (email)
+        
+            i) The WfW app renders the rest of EmailLoginView (below the email field):
+            
+                - password field
+                
+                - reset password "link"
+                
+                - "Sign In" button
+            
+            ii) The user provides his password and taps "Sign In".
+            
+            iii) The WfW app sends the email and password to the WfW server.
+            
+            iv) The WfW server looks up the user's password:
+            
+                    SELECT password FROM players WHERE email = ?;
+                
+                There are three possible outcomes:
+                
+                    1> There is no result.
+                    
+                        - The WfW server returns a 404 and the WfW app routes to LoginChoiceView.
+                    
+                    2> There is a result but the passwords don't match.
+                    
+                        - The WfW server returns a 400 and the WfW app routes to LoginChoiceView.
+                    
+                    3> There is a result and the passwords match.
+                    
+                        - The WfW server returns a 200 with the login token and expiration.
+                        
+                        - The WfW app stores the login token and expiration locally, then routes to the game list view.
+        
+        b) 409 => an account with that email exists, but its type is 1 (facebook)
+        
+            i) The WfW app notifies the player, via popup, that his account is a Facebook account:
+               
+                   'That email has already been used with Facebook sign-in. Press "OK" to continue signing in with Facebook.'
+               
+               The popup has two buttons:
+            
+                   'OK'
+                
+                       > The WfW app begins the Facebook authentication flow
+                
+                   'CANCEL'
+                
+                       > The WfW app routes to LoginChoiceView
+        
+        c) 404 => no account with that email exists
+        
+            i) The WfW app asks the player, via popup, if he'd like to create an account:
+            
+                   'Looks like you're new here! Would you like to create an account for <supplied email>?'
+               
+               The popup has two buttons:
+               
+                   'YES'
+                   
+                       > Go to the next step
+                    
+                   'NO'
+                   
+                       > The modal simply disappears (the player may just have a typo in his email)
+            
+            ii) The WfW app routes to CreateAccountView, which has the following fields:
+            
+                - email (pre-populated with the email provided during step 4)
+                
+                - confirm email
+                
+                - password
+                
+                - confirm password
+                
+                - name
+                
+                - "Create Account" button
+            
+            iii) The user submits the information to the WfW server's "/player/create/email" API.
+            
+                0> If the input data is invalid in some way:
+                    
+                    - The WfW server returns a 400 and the WfW app routes to LoginChoiceView
+            
+            iv) The WfW server attempts to insert the user into the database:
+            
+                    INSERT INTO players (type, email, password, name, login_token, login_exp, last_login)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+            
+                There are 3 possible outcomes:
+                    
+                    1> The insertion fails because the email is not unique (the account already exists)
+                    
+                        - The WfW server returns a 400 and the WfW app routes to LoginChoiceView
+                    
+                    2> The insertion succeeds
+                    
+                                // OLD - The WfW server returns a 200 and emails a 12-digit validation code (the user must enter the code to validate his email).
+                        
+                        - The WfW server returns a 200 and emails a custom URL that contains the player's id and login_token, and which opens the app
+                        
+                            + See these:
+                            
+                                https://www.lullabot.com/articles/navigation-and-deep-linking-with-react-native
+                                
+                                https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html#//apple_ref/doc/uid/TP40007072-CH6-SW10
+                                
+                                https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007899
+                        
+                        - The WfW app tells the player to check his email
+                        
+                        - The player taps the link in the email, which invokes the WfW app, which submits the purpose (create), id, and login_token to the WfW server
+                        
+                        - The WfW server looks up the login_token:
+                        
+                                SELECT login_token, login_exp FROM players WHERE id = ?
+                            
+                            There are 3 possible outcomes:
+                            
+                                1> The token exists and is not expired:
+                                
+                                    - The WfW server changes the user's login_token and login_exp, then returns them in a 200
+                                    
+                                    - The WfW app stores the login_token and login_exp locally, then routes to the game list view
+                                
+                                2> The token exists but is expired:
+                                
+                                    - The WfW server emails a new token and returns a 409
+                                    
+                                    - The WfW app notifies the user about the new token
+                                
+                                3> The token does not exist or the input is invalid:
+                                
+                                    - The WfW server returns a 400
+                                    
+                                    - The WfW routes to LoginChoiceView
+
+
+======================
+    Password Reset
+======================
+
+    1. The user completes steps 1-5ai of the "Email Authentication" flow.
+    
+    2. The user taps the reset password "link".
+    
+    3. The WfW app sends the user's email to the WfW server.
+    
+    4. The server looks up the email (to verify that it exists in the database):
+    
+            SELECT COUNT(*) FROM players WHERE email = ?
+        
+        There are two possible outcomes:
+        
+            a) The user does not exist
+            
+                - The WfW server returns a 404 and the WfW app routes to LoginChoiceView
+            
+            b) The user exists:
+            
+                - The WfW server generates and inserts a reset_token and reset_expiration (24 hours)
+                
+                - The WfW server returns a 200 and emails a link with the 12-digit reset code (the user must enter the code to reset his password)
+                
+    5. The WfW app routes to the reset password view
+    
+    6. The user submits the reset code, email (collected previously), and new password to the WfW server.
+    
+    7. The WfW server looks up the user's reset_token and reset_expiration:
+    
+            SELECT reset_token, reset_expiration WHERE email = ?
+        
+        There are 3 possible outcomes:
+        
+            a) The token exists and is not expired.
+            
+                - The WfW server updates the user's password, login_token, login_exp, reset_token, and reset_expiration
+                
+                - The WfW server returns a 200 with the new login_token and login_exp
+                
+                - The WfW app stores the login_token and login_exp locally, then routes to the game list view
+            
+            b) The token exists but is expired.
+            
+                - The WfW server generates and inserts a reset_token and reset_expiration (24 hours)
+            
+                - The WfW server returns a 409 and emails a link with the 12-digit reset code (the user must enter the code to reset his password)
+                
+                - The WfW app tells the user his code is expired, and to check his email for a new token
+            
+            c) The token does not exist
+            
+                - The WfW server returns a 404
+                
+                - The WfW app routes to LoginChoiceView
+
+
+=========================
+    Project Structure
+=========================
+
+    - This is the structure and layout of the code:
+    
+        wordsfromwords/
+              |
+              +--- apps/         
+              |      |
+              |      +--- ios/      // The React Native iOS app.
+              |      |
+              |      +--- android/  // The React Native Android app.
+              |      |
+              |      +--- shared/   // This is where the shared model for the entire app must live.
+              |      |
+              |      +--- web/      // The web version of the app that will be hosted on S3.
+              |
+              +--- server/          // The primary API server for the game.
+              |
+              +--- website/
+                    |
+                    +--- front/     // The static website files that will be hosted on S3
+                    |
+                    +--- back/      // Will the website even need a back end?
+
+
+============
+    TODO
+============
+
+    - Start developing the authentication parts of app, server, and database!
+    
+    
+    - Using your detailed outlines of the gameplay, board, and cards, design the rest of the database.
+    
+        + Don't forget to include the appropriate time related columns (e.g. last_updated and whatever else)
+        
+        + Remember never to delete anything
+    
+    
+    - Once you have total Facebook authentication mastery, document the related flows.
+
+
+================
+    Database
+================
+
+    players:
+    
+        +------+--------------+---------+---------+------------+--------+---------------+-------------+--------------+---------------+-------------+
+        |  id  |  partner_id  |  type   |  email  |  password  |  name  |  login_token  |  login_exp  |  last_login  |  reset_token  |  reset_exp  |
+        +------+--------------+---------+---------+------------+--------+---------------+-------------+--------------+---------------+-------------+
+        
+        id - a 36-character uuid (110ec58a-a0f2-4ac4-8393-c866d813b8d1) generated using the npm uuid package (https://www.npmjs.com/package/uuid)
+        
+        partner_id - if the player signed in through a third-party system (e.g. Facebook), this is the ID of the player in that system
+        
+        type - supports the following numerical values:
+        
+            1 => facebook
+            2 => email
+    
+    
+    It was necessary to grant the WFW_DB_USER access to tables with this command:
+    
+        GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO WFW_DB_USER;
+
+
+======================
+    Useful Queries
+======================
+
+Insert an email player into the database:
+
+    INSERT INTO players (id, type, email, password, name, login_token, login_exp, last_login)
+    VALUES ('110ec58a-a0f2-4ac4-8393-c866d813b8d1', 2, 'rob.johansen@gmail.com', 'password', 'Rob Johansen', '123abc', now(), now());
+
+
+=============================
+    Environment Variables
+=============================
+
+    - The following must be set to the appropriate values in each environment where the WfW server, database, and redis will run:
+    
+        WFW_DB_NAME
+        WFW_DB_HOST
+        WFW_DB_PASSWORD
+        WFW_DB_POOL_MAX
+        WFW_DB_POOL_MIN
+        WFW_DB_PORT
+        WFW_DB_SSL
+        WFW_DB_USER
+        WFW_REDIS_HOST
+        WFW_REDIS_PORT
+
+
+============
+    APIs
+============
+
+    
+    1. POST /player/exists/email
+    
+        + params:
+        
+            > email
+        
+        + responses:
+        
+            > 200 exists and user type is email
+            > 404 not found
+    
+    2. POST /player/create/email
+    
+        + params:
+        
+            > email
+            > email2
+            > password
+            > password2
+            > name
+        
+        + responses:
+        
+            > 200 account created
+            > 409 account exists
+    
+    3. POST /player/verify/email
+    
+        + params:
+        
+            > email
+            > code
+        
+        + responses:
+        
+            > 200 verified {login_token: token, login_exp: login_exp}
+            > 409 expired
+            > 400 bogus
+    
+    4. POST /password/forgot
+    
+        + params:
+        
+            > email
+        
+        + responses:
+        
+            > 200 reset token emailed
+            > 404 not found
+    
+    5. POST /password/reset
+    
+        + params:
+        
+            > email
+            > token
+            > password
+        
+        + responses:
+        
+            > 200 password changed
+            > 409 token expired
+            > 404 no such token
+
+
+==========
+    UX
+==========
+
+    - This is your color palette (also see palette.png in the project root):
+    
+        http://www.materialpalette.com/blue/orange
+    
+    - Find design examples in this huge compilation of beautiful websites:
+    
+        http://www.awwwards.com/
+    
+    - The login page could be a "split" page with different background colors on each side (one for signing in, the other for creating an account), kinda like this:
+    
+        http://www.buildinamsterdam.com/
+    
+    - This is where you got your icon set (423 SVG icons):
+    
+        http://www.flaticon.com/packs/material-design
+    
+    - Fonts:
+    
+        https://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,400,400italic,700,700italic
+
+
+====================
+    node and npm
+====================
+
+    - Before upgrade, working versions were:
+    
+        + node: 4.2.3
+        + npm:  2.14.7
+    
+    - After installing node 6.9.1 with npm 3.10.8 on top of the old installation:
+    
+        Node.js was installed at
+
+           /usr/local/bin/node
+
+        npm was installed at
+
+           /usr/local/bin/npm
+
+        Make sure that /usr/local/bin is in your $PATH.
+
+
+=======================
+    Launch the Apps
+=======================
+
+To run the app on iOS:
+   cd /Users/rob/code/wordsfromwords/apps/
+   react-native run-ios
+   - or -
+   Open /Users/rob/code/wordsfromwords/apps/ios/WordsFromWords.xcodeproj in Xcode
+   Hit the Run button
+To run your app on Android:
+   Have an Android emulator running (quickest way to get started), or a device connected
+   cd /Users/rob/code/wordsfromwords/apps/
+   react-native run-android
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
